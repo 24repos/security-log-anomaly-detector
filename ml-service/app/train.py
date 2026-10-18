@@ -8,7 +8,7 @@ from features import FEATURES, build_features
 df = build_features(pd.read_csv("ml-service/data/auth_logs.csv"))
 
 model = IsolationForest(n_estimators=200, contamination=0.18, random_state=42)
-model.fit(df[FEATURES])  # unsupervised: labels are NOT used for training
+model.fit(df[FEATURES])  # unsupervised algo so labels are NOT used for training. IF learns from features to know what unusual looks like.
 
 df["pred"] = (model.predict(df[FEATURES]) == -1).astype(int)
 
