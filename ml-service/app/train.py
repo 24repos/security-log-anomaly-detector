@@ -1,3 +1,4 @@
+import json
 import joblib
 import pandas as pd
 from sklearn.ensemble import IsolationForest
@@ -17,4 +18,9 @@ print("Detection rate per anomaly type:")
 print(df.groupby("anomaly_type")["pred"].mean())
 
 joblib.dump(model, "ml-service/models/isolation_forest.joblib")
+
+home = df.groupby("user")["country"].agg(lambda s: s.mode()[0]).to_dict()
+with open("ml-service/models/home_countries.json", "w") as f:
+    json.dump(home, f)
+
 print("Model saved.")
